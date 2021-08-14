@@ -15,23 +15,6 @@ function partitionBooksByBorrowedStatus(books) {
   book.borrows[0].returned ? status[1].push(book) : status[0].push(book);
   return status}, ([[], []]));
 }
-/* alternative solution below for partitionBooksByBorrowedStatus
-function partitionBooksByBorrowedStatus(books) {
-  const borrowed = books.filter(book => !book.borrows[0].returned)
-  const returned = books.filter(book => book.borrows[0].returned)
-  return [borrowed, returned];
-}
-*/
-
-/* altnerative solution below for getBorrowersForBook
-function getBorrowersForBook({borrows}, accounts) {
-  return borrows.map(borrower => {
-    borrower = Object.assign(borrower, accounts.find(code => code.id === borrower.id)); 
-  return borrower})
-  .slice(0, 10)
-}
-*/
-
 
 function getBorrowersForBook({borrows}, accounts) {
   return borrows.map(borrower => 
