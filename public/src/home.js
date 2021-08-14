@@ -1,14 +1,17 @@
+const books = require('../data/books.js')
+
 function getTotalBooksCount(books) {
-  return books.length;
+  return books.length
 }
 
 function getTotalAccountsCount(accounts) {
-  return accounts.length;
+  return accounts.length
 }
 
 function getBooksBorrowedCount(books) {
   return books.reduce((counter, {borrows}) => {return borrows[0].returned ? counter : ++counter}, 0)
 }
+
 function getMostCommonGenres(books) {
   const container = [];
   for (const item of books) {
@@ -25,13 +28,16 @@ function getMostCommonGenres(books) {
   return contain;
 }
 
+function rankMostPopularByCount(input) {
+  return input.sort((a, b) => (b.count - a.count))
+}
+
 function getMostPopularBooks(books) {
   const container = [];
-  const rankings = books.map(classify => {
-      return container[classify] = {name: classify.title, count: (classify.borrows.length)}
+  const rankings = books.map(book => {
+      return container[book] = {name: book.title, count: (getTotalBooksCount(book.borrows))} // using getTotalBooksCount as a helper function
   })
-  const assortedRankings = rankings.sort((itemA, itemB) => (itemA.count > itemB.count ? -1 : 1));
-  assortedRankings.length = 5;
+  const assortedRankings = rankMostPopularByCount(rankings).slice(0, 5) // using rankMostPopularByCount as a helper function
   return assortedRankings;
 }
 
@@ -41,7 +47,7 @@ function getMostPopularAuthors(books, authors) {
     const { name: {first, last}} = authors.find(author => author.id === book.authorId)
     return {
       name: `${first} ${last}`,
-      count: book.borrows.length
+      count: getTotalBooksCount(book.borrows) //using getTotalBooksCount as a helper function
     }
   }).sort((a, b) => b.count - a.count).slice(0, 5)
 }

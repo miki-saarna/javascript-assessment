@@ -1,4 +1,4 @@
-const books = [
+module.exports = [
   {
     id: "5f447132d487bd81da01e25e",
     title: "sit eiusmod occaecat eu magna",
